@@ -1,0 +1,123 @@
+.userScript-debug-text {
+    color: red;
+}
+
+.userScript-invisible {
+    visibility: hidden;
+}
+
+.userScript-ADM-icon {
+    position: absolute;
+}
+
+.userscript-ADM-cfgpanel-header {
+    position: relative;
+    background-color: #f1f2f3;
+    cursor: pointer;
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: PingFang SC, HarmonyOS_Regular, Helvetica Neue, Microsoft YaHei, sans-serif;
+    font-weight: 400;
+    padding: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+    transition: 0.3s;
+}
+
+.userscript-ADM-cfgpanel-icon {
+    position: relative;
+    left: 3%;
+}
+
+.usercript-ADM-cfgpanel-arrow-icon {
+    position: absolute;
+    right: 17px;
+    transition: 0.3s;
+    user-select: none;
+}
+
+.usercript-ADM-cfgpanel-arrow-icon>svg {
+    position: relative;
+    height: 16px;
+    width: 16px;
+    transition: 0.3s;
+    transform: rotate(90deg);
+}
+
+.userscript-ADM-cfgpanel-dev-info {
+    position: absolute;
+    right: 2%;
+    bottom: 6%;
+    opacity: 40%;
+    color: grey;
+    font-size: 4px;
+    font-weight: 200;
+    user-select: none;
+}
+
+.userscript-ADM-cfgpanel-box {
+    position: relative;
+    display: flex;
+    border-radius: 6px;
+    padding: 0px;
+    height: 0px;
+    transition: 0.3s;
+}
+
+
+.userScript-ADM-cfgpanel-form-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 4px;
+}
+
+.userScript-ADM-cfgpanel-form-input {
+    max-width: 50px;
+}
+
+.userScript-ADM-cfgpanel-form-input {
+    border: solid 1px;
+}
+.userScript-ADM-cfgPanel-submit-area>input {
+    border: solid 1px;
+}
+
+.userScript-ADM-cfgPanel-submit-area {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#userScript-cfg-save {
+    flex: 1;
+    border-radius: 0px 0px 0px 6px;
+    transition: 0.3s;
+    background-color: #ffffff;
+}
+
+#userScript-cfg-save:hover {
+    flex: 1.5;
+    background-color: aquamarine;
+}
+
+#userScript-cfg-cancel {
+    border-radius: 0px 0px 6px 0px;
+    flex: 1;
+    transition: 0.3s;
+    background-color: #ffffff;
+}
+
+#userScript-cfg-cancel:hover {
+    flex: 1.5;
+    background-color: rgb(236, 150, 150);
+}
