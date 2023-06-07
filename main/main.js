@@ -13,6 +13,7 @@ var string = {
     "bili-roll": "bili-roll",
     "bili-show": "bili-show",
     "bili-vip-dm": "bili-dm-vip",
+    "bili-comment-container-class": "comment-container",
     "bili-container-vue-id": "video-container-v1",  // 用于获取vue产生的随机id的元素
     "right-panel-inject-element-id": "danmukuBox",  // 被注入的元素id
     "injected-element-class": "danmaku-warp",       // 注入的元素class，用于直接适用css
@@ -140,16 +141,18 @@ function addFunc() {
     function headerFold() {
         if (panelFold) {
             panel.style.height = "90px";
-            panel.style.padding = "15px";
             panel.style.marginBottom = "18px";
-            header.style.marginBottom = "4px";
+            panel.style.paddingTop = "15px";
+            panel.style.paddingBottom = "15px";
+            header.style.marginBottom = "6px";
             arrow.style.transform = "rotate(-90deg)";
             panelFold = false;
         }
         else {
             panel.style.height = "0px";
-            panel.style.padding = "0px";
             panel.style.marginBottom = "0px";
+            panel.style.paddingTop = "0px";
+            panel.style.paddingBottom = "0px";
             header.style.marginBottom = "18px";
             arrow.style.transform = "rotate(90deg)";
             panelFold = true;
@@ -164,6 +167,11 @@ function addFunc() {
             cfg.setValue(string.config["refresh-time"], input_refreshTime.value);
         }
         cfg.applyChange();
+        //重启主循环
+        clearInterval(mainInterval);
+        setTimeout(() => {
+            mainCirculation();
+        }, 1000);
     }
 
     var panelFold = true;
@@ -214,7 +222,6 @@ function initializeScript() {
             document.head.appendChild(e);
         }
         addFunc();
-        refreshCfgPanelFromLocalCfg();
     }
     // 检测初始化进度
     function checkProgress(pro) {
@@ -242,8 +249,10 @@ function initializeScript() {
     // 加载配置
     else if (loadProgress == 1) {
         cfg.loadCfgFromLocalSave(true);
-        if (checkProgress(2))
+        if (checkProgress(2)) {
+            refreshCfgPanelFromLocalCfg();
             loadProgress = 2;
+        }
     }
     // 获取默认弹幕样式
     else if (loadProgress == 2) {
@@ -251,6 +260,11 @@ function initializeScript() {
         if (checkProgress(3))
             loadProgress = 3;
     }
+}
+
+// 检测页面是否加载完成
+function checkPageLoaded() {
+    return document.getElementsByClassName(string["bili-comment-container-class"]).length != 0;
 }
 
 // 解释csstext
@@ -298,19 +312,31 @@ function clearVipDanmuStyle(element) {
     }
 }
 
-var mainInterval = undefined;
 // 代码运行入口如下
 // ——————————————————————————————
 // alertCountdown();
-// 先启动初始化循环，等待加载
-var initializeInterval = setInterval(() => {
-    initializeScript();
-    //当加载完成后，启动正常循环
-    if (loadProgress == 3) {
-        clearInterval(initializeInterval);
-        mainCirculation();
+// 先检测页面是否加载完成（存在评论区）
+// 之后进入初始化循环，等待加载
+// 加载完成后进入主循环
+var mainInterval;
+
+var checkInterval = setInterval(
+    () => {
+        // 检测页面是否加载完成
+        if (checkPageLoaded) {
+            clearInterval(checkInterval);
+
+            var initializeInterval = setInterval(() => {
+                initializeScript();
+                //当加载完成后，启动正常循环
+                if (loadProgress == 3) {
+                    clearInterval(initializeInterval);
+                    mainCirculation();
+                }
+            }, defaultconfig[string.config["initialize-refresh-time"]]);
+        }
     }
-}, defaultconfig[string.config["initialize-refresh-time"]]);
+    , 200);
 
 function mainCirculation() {
     mainInterval = setInterval(() => {

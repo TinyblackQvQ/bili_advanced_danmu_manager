@@ -4,7 +4,7 @@
   "description": "none",
   "main": "bili-clear-vip-danmu.js",
   "scripts": {
-    "test": "uglifyjs ./main/bili-clear-vip-danmu.js -o release.min.js"
+    "test": "uglifyjs ./main/main.js --comments -o release.min.js --source-map"
   },
   "repository": {
     "type": "git",

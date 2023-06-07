@@ -1,11 +1,11 @@
 // DEBUG使用内容
-// var GM_dic = {};
-// function GM_getValue(k) {
-//     return GM_dic[k];
-// }
-// function GM_setValue(k, v) {
-//     GM_dic[k] = v;
-// }
+var GM_dic = {};
+function GM_getValue(k) {
+    return GM_dic[k];
+}
+function GM_setValue(k, v) {
+    GM_dic[k] = v;
+}
 
 // 字符串字典
 var string = {
@@ -13,6 +13,7 @@ var string = {
     "bili-roll": "bili-roll",
     "bili-show": "bili-show",
     "bili-vip-dm": "bili-dm-vip",
+    "bili-comment-container-class": "comment-container",
     "bili-container-vue-id": "video-container-v1",  // 用于获取vue产生的随机id的元素
     "right-panel-inject-element-id": "danmukuBox",  // 被注入的元素id
     "injected-element-class": "danmaku-warp",       // 注入的元素class，用于直接适用css
@@ -66,166 +67,11 @@ var defaultStyle = {};
 
 // 脚本样式表
 var styleSheet = `
-.userScript-debug-text {
-    color: red;
-}
-
-.userScript-invisible {
-    visibility: hidden;
-}
-
-.userScript-ADM-icon {
-    position: absolute;
-}
-
-.userscript-ADM-cfgpanel-header {
-    position: relative;
-    background-color: #f1f2f3;
-    cursor: pointer;
-    display: flex;
-    vertical-align: middle;
-    align-items: center;
-    box-sizing: border-box;
-    border-radius: 6px;
-    font-size: 15px;
-    font-family: PingFang SC, HarmonyOS_Regular, Helvetica Neue, Microsoft YaHei, sans-serif;
-    font-weight: 400;
-    padding: 15px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 18px;
-    transition: 0.3s;
-}
-
-.userscript-ADM-cfgpanel-icon {
-    position: relative;
-    left: 3%;
-}
-
-.usercript-ADM-cfgpanel-arrow-icon {
-    position: absolute;
-    right: 17px;
-    transition: 0.3s;
-    user-select: none;
-}
-
-.usercript-ADM-cfgpanel-arrow-icon>svg {
-    position: relative;
-    height: 16px;
-    width: 16px;
-    transition: 0.3s;
-    transform: rotate(90deg);
-}
-
-.userscript-ADM-cfgpanel-dev-info {
-    position: absolute;
-    right: 2%;
-    bottom: 6%;
-    opacity: 40%;
-    color: grey;
-    font-size: 4px;
-    font-weight: 200;
-    user-select: none;
-}
-
-.userscript-ADM-cfgpanel-box {
-    position: relative;
-    display: flex;
-    border-radius: 6px;
-    padding: 0px;
-    height: 0px;
-    transition: 0.3s;
-}
-
-
-.userScript-ADM-cfgpanel-form-grid {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 5fr;
-    grid-template-rows: 1fr 1fr;
-    align-items: center;
-    column-gap: 12px;
-    row-gap: 4px;
-}
-
-.userScript-ADM-cfgpanel-form-input {
-    max-width: 50px;
-}
-
-.userScript-ADM-cfgpanel-form-input {
-    border: solid 1px;
-}
-.userScript-ADM-cfgPanel-submit-area>input {
-    border: solid 1px;
-}
-
-.userScript-ADM-cfgPanel-submit-area {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-#userScript-cfg-save {
-    flex: 1;
-    border-radius: 0px 0px 0px 6px;
-    transition: 0.3s;
-    background-color: #ffffff;
-}
-
-#userScript-cfg-save:hover {
-    flex: 1.5;
-    background-color: aquamarine;
-}
-
-#userScript-cfg-cancel {
-    border-radius: 0px 0px 6px 0px;
-    flex: 1;
-    transition: 0.3s;
-    background-color: #ffffff;
-}
-
-#userScript-cfg-cancel:hover {
-    flex: 1.5;
-    background-color: rgb(236, 150, 150);
-}
+        //debug
     `;
 // 脚本配置面板html
 var cfgPanelHtml = `
-<div class="userscript-ADM-cfgpanel-header" id="userscript-ADM-cfgpanel-header">
-    <p> 弹幕管理 </p>
-    <div class="userscript-ADM-cfgpanel-icon">
-        <span class="userScript-invisible userScript-ADM-icon" id="userscript-ADM-alert-icon">⚠</span>
-        <span class="userScript-invisible userScript-ADM-icon" id="userscript-ADM-error-icon">🚫</span>
-        <span class="userScript-invisible userScript-ADM-icon" id="userscript-ADM-loading-icon">🔷</span>
-        <span class="userScript-invisible userScript-ADM-icon" id="userscript-ADM-complete-icon">✅</span>
-        <!--占位符--><span style="visibility: hidden;">space</span>
-    </div>
-    <span class="userscript-ADM-cfgpanel-dev-info">Powered by Advanced Danmaku Manager</span>
-    <span class="usercript-ADM-cfgpanel-arrow-icon" >
-        <svg id="usercript-ADM-cfgpanel-arrow-icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" data-pointer="none" viewBox="0 0 16 16">
-            <path
-                d="m9.188 7.999-3.359 3.359a.75.75 0 1 0 1.061 1.061l3.889-3.889a.75.75 0 0 0 0-1.061L6.89 3.58a.75.75 0 1 0-1.061 1.061l3.359 3.358z">
-            </path>
-        </svg>
-    </span>
-    <p class="userScript-invisible" id="userscript-ADM-testtext">This is a test text</p>
-</div>
-<div class="userscript-ADM-cfgpanel-box" id="userscript-ADM-cfgpanel-box">
-    <form>
-        <div class="userScript-ADM-cfgpanel-form-grid">
-            <input class="userScript-ADM-cfgpanel-form-input" type="checkbox" check="checked" name="remove_vip_danmu">
-            <p class="userScript-ADM-cfgpanel-form-passage">屏蔽彩色弹幕</p>
-            <input class="userScript-ADM-cfgpanel-form-input" type="number" name="refresh_time">
-            <p class="userScript-ADM-cfgpanel-form-passage">弹幕检测更新时间 (ms)</p>
-        </div>
-        <br>
-        <div class="userScript-ADM-cfgPanel-submit-area">
-            <input id="userScript-cfg-save" type="button" value="保存">
-            <input id="userScript-cfg-cancel" type="button" value="取消">
-        </div>
-    </form>
-</div>
+        //debug
     `;
 
 // 脚本加载进程
@@ -295,16 +141,18 @@ function addFunc() {
     function headerFold() {
         if (panelFold) {
             panel.style.height = "90px";
-            panel.style.padding = "15px";
             panel.style.marginBottom = "18px";
-            header.style.marginBottom = "4px";
+            panel.style.paddingTop = "15px";
+            panel.style.paddingBottom = "15px";
+            header.style.marginBottom = "6px";
             arrow.style.transform = "rotate(-90deg)";
             panelFold = false;
         }
         else {
             panel.style.height = "0px";
-            panel.style.padding = "0px";
             panel.style.marginBottom = "0px";
+            panel.style.paddingTop = "0px";
+            panel.style.paddingBottom = "0px";
             header.style.marginBottom = "18px";
             arrow.style.transform = "rotate(90deg)";
             panelFold = true;
@@ -319,6 +167,11 @@ function addFunc() {
             cfg.setValue(string.config["refresh-time"], input_refreshTime.value);
         }
         cfg.applyChange();
+        //重启主循环
+        clearInterval(mainInterval);
+        setTimeout(() => {
+            mainCirculation();
+        }, 1000);
     }
 
     var panelFold = true;
@@ -396,10 +249,9 @@ function initializeScript() {
     // 加载配置
     else if (loadProgress == 1) {
         cfg.loadCfgFromLocalSave(true);
-        if (checkProgress(2))
-        {
-            loadProgress = 2;
+        if (checkProgress(2)) {
             refreshCfgPanelFromLocalCfg();
+            loadProgress = 2;
         }
     }
     // 获取默认弹幕样式
@@ -408,6 +260,11 @@ function initializeScript() {
         if (checkProgress(3))
             loadProgress = 3;
     }
+}
+
+// 检测页面是否加载完成
+function checkPageLoaded() {
+    return document.getElementsByClassName(string["bili-comment-container-class"]).length != 0;
 }
 
 // 解释csstext
@@ -455,19 +312,31 @@ function clearVipDanmuStyle(element) {
     }
 }
 
-var mainInterval = undefined;
 // 代码运行入口如下
 // ——————————————————————————————
 // alertCountdown();
-// 先启动初始化循环，等待加载
-var initializeInterval = setInterval(() => {
-    initializeScript();
-    //当加载完成后，启动正常循环
-    if (loadProgress == 3) {
-        clearInterval(initializeInterval);
-        mainCirculation();
+// 先检测页面是否加载完成（存在评论区）
+// 之后进入初始化循环，等待加载
+// 加载完成后进入主循环
+var mainInterval;
+
+var checkInterval = setInterval(
+    () => {
+        // 检测页面是否加载完成
+        if (checkPageLoaded) {
+            clearInterval(checkInterval);
+
+            var initializeInterval = setInterval(() => {
+                initializeScript();
+                //当加载完成后，启动正常循环
+                if (loadProgress == 3) {
+                    clearInterval(initializeInterval);
+                    mainCirculation();
+                }
+            }, defaultconfig[string.config["initialize-refresh-time"]]);
+        }
     }
-}, defaultconfig[string.config["initialize-refresh-time"]]);
+    , 200);
 
 function mainCirculation() {
     mainInterval = setInterval(() => {

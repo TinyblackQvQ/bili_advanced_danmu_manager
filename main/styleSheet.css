@@ -61,10 +61,11 @@
 }
 
 .userscript-ADM-cfgpanel-box {
+    overflow: hidden;
     position: relative;
     display: flex;
     border-radius: 6px;
-    padding: 0px;
+    padding: 0px 15px 0px 15px;
     height: 0px;
     transition: 0.3s;
 }
@@ -82,13 +83,13 @@
 
 .userScript-ADM-cfgpanel-form-input {
     max-width: 50px;
-}
-
-.userScript-ADM-cfgpanel-form-input {
     border: solid 1px;
+    text-indent: 2px;
 }
+    
 .userScript-ADM-cfgPanel-submit-area>input {
     border: solid 1px;
+    height: 24px;
 }
 
 .userScript-ADM-cfgPanel-submit-area {
